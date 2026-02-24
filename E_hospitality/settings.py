@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-o$+$@q^55wu1+%u+n+&!@gdx8!os^r*e-@toy7!9d@$@+@5p@*'
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+SECRET_KEY = 'django-insecure-o$+$@q^55wu1+%u+n+&!@gdx8!os^r*e-@toy7!9d@$@+@5p@*'
+# STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -130,5 +130,5 @@ LOGIN_REDIRECT_URL = '/patient/'
 LOGOUT_REDIRECT_URL = '/login/'git add -A
 
 
-# STRIPE_PUBLISHABLE_KEY = 'pk_test_51T3rtsQkNouGUxb2v4a0wAbZHQRX6R2HSnyXwpwikBy9usftyV5MOIKclvK5Jh6W8iAZzTiNidDEh5S0qXrVhGPa00uSGedPM6'
-# STRIPE_SECRET_KEY = "sk_test_51T3rtsQkNouGUxb23IL3EuFzzcHGAlzXARkpzpkQDcbSrKgLH0noZYJ9jaMMZwJKdq5fM7C0KMmzoq2bf03Oxnk0003zbU3nWD"
+ STRIPE_PUBLISHABLE_KEY = 'pk_test_51T3rtsQkNouGUxb2v4a0wAbZHQRX6R2HSnyXwpwikBy9usftyV5MOIKclvK5Jh6W8iAZzTiNidDEh5S0qXrVhGPa00uSGedPM6'
+ STRIPE_SECRET_KEY = "sk_test_51T3rtsQkNouGUxb23IL3EuFzzcHGAlzXARkpzpkQDcbSrKgLH0noZYJ9jaMMZwJKdq5fM7C0KMmzoq2bf03Oxnk0003zbU3nWD"
