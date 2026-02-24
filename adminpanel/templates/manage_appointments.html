@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Pending Appointments</h2>
+
+<table border="1">
+  <tr>
+    <th>Patient</th>
+    <th>Doctor Type</th>
+    <th>Date</th>
+    <th>Assign Doctor</th>
+    <th>Action</th>
+  </tr>
+
+  {% for app in appointments %}
+  <tr>
+    <td>{{ app.patient.username }}</td>
+    <td>{{ app.doctor_type }}</td>
+    <td>{{ app.appointment_date }}</td>
+
+    <form method="POST" action="{% url 'approve_appointment' app.id %}">
+      {% csrf_token %}
+      <td>
+        <select name="doctor">
+          {% for doctor in doctors %}
+            <option value="{{ doctor.id }}">{{ doctor.username }}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+        <button type="submit">Approve</button>
+      </td>
+    </form>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { background-color: #f5f8ff; font-family: 'Segoe UI', sans-serif; }
+        h1 { text-align: center; margin: 30px 0; color: #1d3557; }
+        .card { border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .paid { color: green; font-weight: bold; }
+        .unpaid { color: red; font-weight: bold; }
+        table.dataTable thead th { background-color: #457b9d; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Billing Dashboard</h1>
+
+    <!-- Total Revenue Card -->
+    <div class="row mb-4">
+        <div class="col-md-4 offset-md-4">
+            <div class="card text-center p-4">
+                <h5>Total Revenue</h5>
+                <h2>₹ {{ total_revenue }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Revenue Chart -->
+    <div class="row mb-4">
+        <div class="col-md-10 offset-md-1">
+            <div class="card p-4">
+                <h5 class="text-center mb-3">Monthly Revenue</h5>
+                <canvas id="monthlyRevenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Payment Status Table -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card p-3">
+                <h5 class="mb-3">Patient Payment Status</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Bill Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for patient in appointments %}
+                            <tr>
+                                <td>{{ patient.patient.username }}</td> 
+                                <td>₹ {{ patient.bill_amount }}</td>
+                                <td class="{% if patient.status == 'Completed' %}paid{% else %}unpaid{% endif %}">
+                                    {{ patient.status }}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            ...
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart.js Script -->
+<script>
+    const ctx = document.getElementById('monthlyRevenueChart').getContext('2d');
+    const monthlyRevenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: 'Revenue (₹)',
+                data: {{ chart_data|safe }},
+                backgroundColor: 'rgba(69, 123, 157, 0.7)',
+                borderColor: 'rgba(69, 123, 157, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration | E-Hospitality</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f0f2f5; min-height: 100vh; display: flex; align-items: center; font-family: 'Segoe UI', sans-serif; }
+        .register-card { width: 100%; max-width: 500px; padding: 30px; border-radius: 15px; border: none; background: white; }
+        .btn-success { background-color: #198754; border: none; padding: 12px; font-weight: 600; }
+        .header-text { color: #198754; font-weight: 700; text-align: center; margin-bottom: 20px; }
+        /* Style for alerts */
+        .alert { font-size: 0.85rem; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card register-card shadow-lg mx-auto">
+            <h3 class="header-text">Join as a Professional</h3>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="POST" action="{% url 'doctor_register' %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label small fw-bold">USERNAME</label>
+                        <input type="text" name="username" class="form-control" placeholder="Enter username" value="{{ request.POST.username }}" required>
+                    </div>
+                    
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label small fw-bold">SPECIALIZATION</label>
+                        <select name="specialization" class="form-select" required>
+                            <option value="" disabled {% if not request.POST.specialization %}selected{% endif %}>Select Field</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="General Medicine">General Medicine</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-bold">PASSWORD</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-bold">CONFIRM</label>
+                        <input type="password" name="confirm_password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-success w-100 mt-2">Register Now</button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <p class="small">Already have a doctor account? <a href="{% url 'doctor_login' %}" class="text-success text-decoration-none fw-bold">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
